@@ -1,0 +1,127 @@
+#First update your system
+sudo apt-get update && sudo apt-get dist-upgrade
+
+#Clean-up System
+sudo apt-get purge epiphany-browser epiphany-browser-data
+sudo apt-get purge pantheon-mail
+sudo apt-get autoremove
+sudo apt-get autoclean
+
+#Install useful tools
+sudo apt-get install gdebi
+sudo apt-get install software-properties-common
+sudo apt-get install synaptic
+sudo apt-get install software-properties-gtk
+sudo apt-get install git
+sudo apt-get install htop
+sudo apt-get install redshift-gtk
+sudo apt-get install mc
+sudo apt-get install transmission
+sudo apt-get install pidgin
+sudo apt-get install kazam
+sudo apt-get install keepassx
+sudo apt-get install xterm
+sudo apt-get install rar unrar cabextract lzip lunzip arj unace p7zip-rar p7zip
+
+#Remove guest session
+sudo sh -c "echo 'allow-guest=false' >> /usr/share/lightdm/lightdm.conf.d/40-pantheon-greeter.conf"
+
+#Remove useless power indicator
+sudo apt-get remove wingpanel-indicator-power
+
+#Install grub customizer
+sudo add-apt-repository ppa:danielrichter2007/grub-customizer
+sudo apt update
+sudo apt install grub-customizer
+
+#Install Libre office:
+sudo add-apt-repository ppa:libreoffice/libreoffice-5-4
+sudo apt-get update
+sudo apt-get dist-upgrade
+sudo apt-get install libreoffice
+
+#Install Spotify
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB318AD50EC6865090613B00F1FD2C19886
+echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo apt-get update
+sudo apt-get install spotify-client
+
+#Install Caffeine
+sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt-get update
+sudo apt-get install caffeine-plus
+
+#Install Albert
+sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt update
+sudo apt install albert
+
+#Install Elementary Tweaks
+sudo add-apt-repository ppa:philip.scott/elementary-tweaks && sudo apt-get update
+sudo apt-get install elementary-tweaks
+
+#Install Mono
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | sudo tee /etc/apt/sources.list.d/mono-official.list
+sudo apt-get update
+sudo apt-get install monodevelop
+sudo apt-get install monodevelop-nunit
+sudo apt-get install monodevelop-versioncontrol
+
+#Install VitrtualBox
+go to https://www.virtualbox.org/wiki/Linux_Downloads
+and download appropriate .deb package
+
+#Install MS Fonts
+sudo apt-get install ttf-mscorefonts-installer
+
+#Install Skype
+wget https://repo.skype.com/latest/skypeforlinux-64.deb
+sudo dpkg -i skypeforlinux-64.deb
+sudo apt install -f
+sudo apt-get install cheese
+
+#Install Thunderbird mail
+sudo add-apt-repository ppa:mozillateam/thunderbird-stable
+sudo apt-get update
+sudo apt-get install thunderbird
+
+#Install Telegram
+sudo add-apt-repository ppa:atareao/telegram && sudo apt update
+sudo apt install telegram
+
+#Install Master Pdf editor
+download https://code-industry.net/free-pdf-editor/#get
+Install .deb package
+
+#Install WizNote
+sudo add-apt-repository ppa:wiznote-team/ppa
+
+#install backup software
+sudo apt-add-repository -y ppa:teejee2008/ppa
+sudo apt-get update
+sudo apt-get install timeshift
+
+#Install notes-up
+sudo apt-add-repository ppa:philip.scott/projects && sudo apt-get update
+sudo apt-get install notes-up
+
+#Enable NumLock at login
+sudo scratch-text-editor /usr/share/lightdm/lightdm.conf.d/40-pantheon-greeter.conf
+
+Add the following line to the end of the file
+greeter-setup-script=/usr/bin/numlockx on
+
+#Install PowerShell
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | sudo tee /etc/apt/sources.list.d/microsoft.list
+sudo apt-get update
+sudo apt-get install -y powershell
+powershell
+
+#Install PowerShell ISE
+Download and install visual studio code from here  https://code.visualstudio.com/
+Install PowerShell extention
+
+#Issue solving
+If desktop takes to long to initialize you need to delete "at-spi-dbus.desktop" in /etc/xdg/autostart
