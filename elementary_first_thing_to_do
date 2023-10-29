@@ -122,6 +122,3 @@ powershell
 #Install PowerShell ISE
 Download and install visual studio code from here  https://code.visualstudio.com/
 Install PowerShell extention
-
-#Issue solving
-If desktop takes to long to initialize you need to delete "at-spi-dbus.desktop" in /etc/xdg/autostart
