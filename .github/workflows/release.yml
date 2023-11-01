@@ -44,5 +44,5 @@ jobs:
           git tag -a ${{ steps.release.outputs.TAG }} -m "Release ${{ steps.release.outputs.TAG }}"
 
       - name: Push Annotated Tag
-        run: git push
+        run: git push --tags
 
