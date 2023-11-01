@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Check if the current branch is 'develop'
-        if: github.ref != 'refs/heads/develop'
+        if: github.ref != 'refs/heads/feature/ps-0000-new-release'
         run: |
           echo "The current branch is not 'develop'. Exiting workflow."
           gh run cancel ${{ github.run_id }}
