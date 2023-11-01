@@ -44,5 +44,30 @@ jobs:
           git tag -a ${{ steps.release.outputs.TAG }} -m "Release ${{ steps.release.outputs.TAG }}"
 
       - name: Push Annotated Tag
-        run: git push --tags
+        run: | 
+          git push origin ${{ steps.release.outputs.TAG }}
 
+      - name: Update Changelog File
+        id: changelog
+        uses: requarks/changelog-action@v1.9.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release.outputs.TAG }}
+
+      - name: Create New Release
+        uses: ncipollo/release-action@v1.13.0
+        with:
+          allowUpdates: false
+          draft: false
+          makeLatest: true
+          name: ${{ steps.release.outputs.TAG }}
+          body: ${{ steps.changelog.outputs.changes }}
+          tag: ${{ steps.release.outputs.TAG }}
+          token: ${{ secrets.AUTH_TOKEN }}
+
+      - name: Commit Updated Changelog File
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: ${{ github.ref }}
+          commit_message: 'docs: update CHANGELOG.md for Release ${{ steps.release.outputs.TAG }} [skip ci]'
+          file_pattern: CHANGELOG.md
