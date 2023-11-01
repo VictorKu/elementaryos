@@ -17,34 +17,32 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Generate release number
-        id: release-number
+      - name: Generate Release Information
+        id: release
         run: |
-          echo "RELEASE_VERSION=v${{ vars.RELEASE_VERSION }}" >> "$GITHUB_OUTPUT"
+          echo "TAG=v${{ vars.RELEASE_VERSION }}" >> "$GITHUB_OUTPUT"
+          echo "BRANCH=release/v${{ vars.RELEASE_VERSION }}" >> "$GITHUB_OUTPUT"
       
-      - name: Validate release numner
+      - name: Verify Release Number
         id: semver
         uses: matt-usurp/validate-semver@v1.1.1
         with:
-            version: ${{ steps.release-number.outputs.RELEASE_VERSION }}
+            version: ${{ steps.release.outputs.TAG }}
 
-      - name: Install git flow tool
-        run: |
-          sudo apt-get -y install git-flow
-
-      - name: Checkout source code
+      - name: Checkout Source Code
         uses: actions/checkout@v4.1.1
         with:
           ref: ${{ github.ref }}
-          fetch-depth: 0
         
-      - name: Initialize mandatory git config
+      - name: Set Up Mandatory Git Configuration
         run: |
           git config user.name "Release manager"
           git config user.email noreply@github.com
 
-      - name: Init git flow
+      - name: Create Annotated Tag
         run: |
-          git checkout master
-          git checkout develop
-          git flow init -d
+          git tag -a ${{ steps.release.outputs.TAG }} -m "Release ${{ steps.release.outputs.TAG }}"
+
+      - name: Push Annotated Tag
+        run: git push origin ${{ steps.release.outputs.TAG }}
+
