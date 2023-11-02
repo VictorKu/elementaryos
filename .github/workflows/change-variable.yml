@@ -12,4 +12,4 @@ jobs:
           echo ${{ github.repository }}
           gh variable list --repo ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN2 }}
