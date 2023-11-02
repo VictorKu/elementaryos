@@ -1,0 +1,13 @@
+name: Variables
+
+on:
+  workflow_dispatch:
+
+jobs:
+   deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: gh variable list
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
