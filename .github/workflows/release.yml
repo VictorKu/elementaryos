@@ -83,7 +83,9 @@ jobs:
       - name: Create Pull Request to Develop
         run: |
           pr_title="chore(release): Merge Release ${{ steps.release.outputs.TAG }} into Develop"
-          pr_body="## Description\n\nThis pull request merges the changes from the \`${{ steps.release.outputs.BRANCH }}\` into the \`develop\` branch."
+          pr_body="## Description
+          
+          This pull request merges the changes from the \`${{ steps.release.outputs.BRANCH }}\` into the \`develop\` branch."
         
           gh pr create --base develop --head ${{ steps.release.outputs.BRANCH }} --title "$pr_title" --body "$pr_body"
         env:
