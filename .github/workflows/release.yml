@@ -79,3 +79,12 @@ jobs:
           branch: ${{ steps.release.outputs.BRANCH }}
           commit_message: 'docs: update CHANGELOG.md for Release ${{ steps.release.outputs.TAG }} [skip ci]'
           file_pattern: CHANGELOG.md
+
+      - name: Create Pull Request to Develop
+        run: |
+          pr_title="chore(release): Merge Release ${{ steps.release.outputs.TAG }} into Develop"
+          pr_body="## Description\n\nThis pull request merges the changes from the \`${{ steps.release.outputs.BRANCH }}\` into the \`develop\` branch."
+        
+          gh pr create --base develop --head ${{ steps.release.outputs.BRANCH }} --title "$pr_title" --body "$pr_body"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
