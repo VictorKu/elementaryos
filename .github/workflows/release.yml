@@ -1,39 +1,92 @@
-name: Deploy
+name: Release 🚀
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - v[0-9]+.[0-9]+.[0-9]+
 
 jobs:
-  deploy:
+  create-release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Check if the current branch is 'develop'
+        if: github.ref != 'refs/heads/feature/ps-0000-new-release'
+        run: |
+          echo "The current branch is not 'develop'. Exiting workflow."
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Generate Release Information
+        id: release
+        run: |
+          echo "TAG=v${{ vars.RELEASE_VERSION }}" >> "$GITHUB_OUTPUT"
+          echo "BRANCH=release/v${{ vars.RELEASE_VERSION }}" >> "$GITHUB_OUTPUT"
+      
+      - name: Verify Release Number
+        id: semver
+        uses: matt-usurp/validate-semver@v1.1.1
+        with:
+            version: ${{ steps.release.outputs.TAG }}
 
-      - name: Update CHANGELOG
+      - name: Checkout Source Code
+        uses: actions/checkout@v4.1.1
+        with:
+          ref: ${{ github.ref }}
+        
+      - name: Set Up Mandatory Git Configuration
+        run: |
+          git config user.name "Release manager"
+          git config user.email noreply@github.com
+
+      - name: Create Annotated Tag
+        run: |
+          git tag -a ${{ steps.release.outputs.TAG }} -m "Release ${{ steps.release.outputs.TAG }}"
+
+      - name: Push Annotated Tag
+        run: | 
+          git push origin ${{ steps.release.outputs.TAG }}
+
+      - name: Create New Release Branch
+        run: |
+          git checkout -b ${{ steps.release.outputs.BRANCH }}
+
+      - name: Push Release Branch to Remote
+        run: |
+          git push -u origin ${{ steps.release.outputs.BRANCH }}
+
+      - name: Update Changelog File
         id: changelog
-        uses: requarks/changelog-action@v1
+        uses: requarks/changelog-action@v1.9.0
         with:
-          token: ${{ github.token }}
-          tag: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release.outputs.TAG }}
 
-      - name: Create Release
-        uses: ncipollo/release-action@v1.12.0
+      - name: Create New Release
+        uses: ncipollo/release-action@v1.13.0
         with:
-          allowUpdates: true
+          allowUpdates: false
           draft: false
           makeLatest: true
-          name: ${{ github.ref_name }}
+          name: ${{ steps.release.outputs.TAG }}
           body: ${{ steps.changelog.outputs.changes }}
-          token: ${{ github.token }}
+          tag: ${{ steps.release.outputs.TAG }}
+          token: ${{ secrets.AUTH_TOKEN }}
 
-      - name: Commit CHANGELOG.md
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Commit Updated Changelog File
+        uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
-          branch: develop
-          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
+          branch: ${{ steps.release.outputs.BRANCH }}
+          commit_message: 'docs: update CHANGELOG.md for Release ${{ steps.release.outputs.TAG }} [skip ci]'
           file_pattern: CHANGELOG.md
+
+      - name: Create Pull Request to Develop
+        run: |
+          pr_title="chore(release): Merge Release ${{ steps.release.outputs.TAG }} into Develop"
+          pr_body="## Description
+          
+          This pull request merges the changes from the \`${{ steps.release.outputs.BRANCH }}\` into the \`develop\` branch."
+        
+          gh pr create --base develop --head ${{ steps.release.outputs.BRANCH }} --title "$pr_title" --body "$pr_body"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
