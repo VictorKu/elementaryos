@@ -9,7 +9,12 @@ jobs:
 
     steps:
       - run: |
-          echo ${{ github.repository }}
-          gh variable list --repo ${{ github.repository }}
+          gh api \
+          --method PATCH \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${{ github.repository }}/actions/variables/NAME \
+          -f name='RELEASE_VERSION' \
+          -f value='1.0.5' 
         env:
           GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN2 }}
