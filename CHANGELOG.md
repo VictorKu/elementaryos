@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.3] - 2023-11-02
+### :sparkles: New Features
+- [`8b24837`](https://github.com/VictorKu/elementaryos/commit/8b248373f80629d5f38e891cbead8d6d2c1c2138) - added release step *(commit by [@VictorKu](https://github.com/VictorKu))*
+- [`0c5a892`](https://github.com/VictorKu/elementaryos/commit/0c5a892c8fc3a10964a07f9fb7c8a20da68549fe) - added possibility to create release branch *(commit by [@VictorKu](https://github.com/VictorKu))*
+- [`5ef6229`](https://github.com/VictorKu/elementaryos/commit/5ef6229fe2d95f54bcaf571269e5f2c3d54caa9a) - added possibility to create pull request to develop *(commit by [@VictorKu](https://github.com/VictorKu))*
+
+### :bug: Bug Fixes
+- [`23c4238`](https://github.com/VictorKu/elementaryos/commit/23c4238d0388fc6e8062ba9619df36bb1945e8ce) - changed pr body text *(commit by [@VictorKu](https://github.com/VictorKu))*
+
+
 ## [v1.0.2] - 2023-10-29
 ### :bug: Bug Fixes
 - [`eabd19d`](https://github.com/VictorKu/elementaryos/commit/eabd19dec62fbf03bbbe26d5ee3c8a5fea7ac2f9) - changed release.yml *(commit by [@VictorKu](https://github.com/VictorKu))*
@@ -14,3 +24,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [v1.0.2]: https://github.com/VictorKu/elementaryos/compare/v1.0.1...v1.0.2
+[v1.0.3]: https://github.com/VictorKu/elementaryos/compare/v1.0.2...v1.0.3
