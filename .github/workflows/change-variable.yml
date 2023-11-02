@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: gh variable list
+      - run: |
+          echo ${{ github.repository }}
+          gh variable list --repo ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
