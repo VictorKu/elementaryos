@@ -90,3 +90,14 @@ jobs:
           gh pr create --base develop --head ${{ steps.release.outputs.BRANCH }} --title "$pr_title" --body "$pr_body"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request to Master
+        run: |
+          pr_title="chore(release): Merge Release ${{ steps.release.outputs.TAG }} into Master"
+          pr_body="## Description
+            
+          This pull request merges the changes from the \`${{ steps.release.outputs.BRANCH }}\` into the \`master\` branch."
+          
+          gh pr create --base master --head ${{ steps.release.outputs.BRANCH }} --title "$pr_title" --body "$pr_body"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
