@@ -47,6 +47,14 @@ jobs:
         run: | 
           git push origin ${{ steps.release.outputs.TAG }}
 
+      - name: Create New Release Branch
+        run: |
+          git checkout -b ${{ steps.release.outputs.BRANCH }}
+
+      - name: Push Release Branch to Remote
+        run: |
+          git push -u origin ${{ steps.release.outputs.BRANCH }}
+
       - name: Update Changelog File
         id: changelog
         uses: requarks/changelog-action@v1.9.0
@@ -66,8 +74,8 @@ jobs:
           token: ${{ secrets.AUTH_TOKEN }}
 
       - name: Commit Updated Changelog File
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
-          branch: ${{ github.ref }}
+          branch: ${{ steps.release.outputs.BRANCH }}
           commit_message: 'docs: update CHANGELOG.md for Release ${{ steps.release.outputs.TAG }} [skip ci]'
           file_pattern: CHANGELOG.md
