@@ -1,0 +1,16 @@
+name: Deploy 📦
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Deployment in progress!!! ${{ github.event.release.tag_name }} "
+
