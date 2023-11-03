@@ -9,10 +9,9 @@ jobs:
 
     steps:
       - run: |
-          curl -L \
-            -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.AUTH_TOKEN2 }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            --url https://api.github.com/repos/${{ github.repository }}/actions/variables/RELEASE_VERSION \
-            -d '{"name":"RELEASE_VERSION","value":"1.0.5"}'
+          IFS='.' read -ra version_parts <<< "${{ vars.RELEASE_VERSION }}"
+          major="${version_parts[0]}"
+          minor="${version_parts[1]}"
+          patch="$((version_parts[2] + 1))"
+          new_version="$major.$minor.$patch"
+          echo new_version
