@@ -17,4 +17,4 @@ jobs:
       - run: |
           new_patch=$((${{ steps.semver.outputs.patch }}  + 1))
           echo "v${{ steps.semver.outputs.version }}"
-          echo "${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ new_patch }}"
+          echo "${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.$new_patch"
