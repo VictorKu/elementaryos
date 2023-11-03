@@ -14,4 +14,4 @@ jobs:
           minor="${version_parts[1]}"
           patch="$((version_parts[2] + 1))"
           new_version="$major.$minor.$patch"
-          echo new_version
+          echo ${{ new_version }}
