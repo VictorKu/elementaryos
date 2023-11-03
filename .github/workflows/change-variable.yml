@@ -8,14 +8,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate Next Release Number
-        id: next-release-details
-        run: |
-          IFS='.' read -ra version_parts <<< "${{ vars.RELEASE_VERSION }}"
-          major="${version_parts[0]}"
-          minor="${version_parts[1]}"
-          patch="$((version_parts[2] + 1))"
-          new_version="$major.$minor.$patch"          
-          echo "NEW_RELESE_VERSION=$new_version" >> "$GITHUB_OUTPUT"
+      - name: Verify Release Number
+        id: semver
+        uses: matt-usurp/validate-semver@v1.1.1
+        with:
+          version: '1.0.0'
 
-      - run: steps.next-release-details.NEW_RELESE_VERSION
+      - run: |
+          echo "v${{ steps.semver.outputs.version }}"
+          echo "${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ steps.semver.outputs.patch + 1 }}"
