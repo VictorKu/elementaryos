@@ -77,7 +77,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5.0.0
         with:
           branch: ${{ steps.release.outputs.BRANCH }}
-          commit_message: 'docs: update CHANGELOG.md for Release ${{ steps.release.outputs.TAG }} [skip ci]'
+          commit_message: 'docs: update CHANGELOG.md for Release ${{ steps.release.outputs.TAG }}'
           file_pattern: CHANGELOG.md
 
       - name: Create Pull Request to Master
