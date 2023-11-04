@@ -12,5 +12,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "Deployment in progress!!!"
+      - run: echo "Deployment in progress!!! ${{ github.event.release.tag_name }} "
 
